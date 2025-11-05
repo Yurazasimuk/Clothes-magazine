@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Історія замовлень</title>
+</head>
+<body>
+    <h1>Історія ваших замовлень</h1>
+
+    {% if orders %}
+        <ul>
+            {% for order in orders %}
+                <li>
+                    Замовлення №{{ order.id }} - {{ order.total_price }} грн - Статус: {{ order.status }}
+                    <ul>
+                        {% for item in order.items.all %}
+                            <li>{{ item.name }} - {{ item.price }} грн</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>У вас немає замовлень.</p>
+    {% endif %}
+</body>
+</html>

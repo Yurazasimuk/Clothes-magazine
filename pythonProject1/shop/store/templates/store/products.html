@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Наші товари</title>
+</head>
+<body>
+    <h1>Наші товари</h1>
+    <ul>
+        {% for item in clothing_items %}
+            <li>
+                <strong>{{ item.name }}</strong><br>
+                Ціна: {{ item.price }} грн
+            </li>
+        {% empty %}
+            <li>Товари відсутні.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

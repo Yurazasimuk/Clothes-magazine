@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя корзина</title>
+</head>
+<body>
+    <h1>Моя корзина</h1>
+
+    {% if cart_items %}
+        <ul>
+            {% for item in cart_items %}
+                <li>
+                    {{ item.name }} - {{ item.price }} грн
+                    <a href="{% url 'remove_from_cart' item.id %}">Видалити</a>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h3>Загальна сума: {{ total_price }} грн</h3>
+
+        <a href="{% url 'clothing_item_list' %}">Повернутися до товарів</a>
+    {% else %}
+        <p>Корзина порожня.</p>
+        <a href="{% url 'clothing_item_list' %}">Переглянути товари</a>
+    {% endif %}
+</body>
+</html>
+<h1>Ваш кошик</h1>
+<ul>
+    {% for item in cart_items %}
+        <li>
+            {{ item.name }} - {{ item.price }} грн
+            <a href="{% url 'remove_from_cart' item.id %}">Видалити</a>
+        </li>
+    {% empty %}
+        <p>Ваш кошик порожній.</p>
+    {% endfor %}
+</ul>
+
+<h3>Загальна сума: {{ total_price }} грн</h3>
+
+<form method="post" action="{% url 'place_order' %}">
+  {% csrf_token %}
+  <button type="submit">Оформити замовлення</button>
+</form>

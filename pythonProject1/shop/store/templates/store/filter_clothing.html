@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фільтрувати одяг</title>
+</head>
+<body>
+    <h1>Фільтрувати одяг за типом</h1>
+
+    <form method="get" action="{% url 'filter_clothing' %}">
+        <label for="type">Тип одягу:</label>
+        <select name="type" id="type">
+            <option value="">Всі</option>
+            <option value="Shirt">Футболка</option>
+            <option value="Pants">Штани</option>
+            <option value="Jacket">Куртка</option>
+        </select>
+        <button type="submit">Фільтрувати</button>
+    </form>
+
+    <h2>Доступний одяг:</h2>
+    <ul>
+        {% for item in clothing_items %}
+            <li>{{ item.name }} - {{ item.price }} грн</li>
+        {% empty %}
+            <p>Не знайдено товарів для цього типу.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

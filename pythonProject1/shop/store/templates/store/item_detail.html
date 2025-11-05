@@ -1,0 +1,5 @@
+<h1>{{ item.name }}</h1>
+<p>{{ item.description }}</p>
+<p>Ціна: {{ item.price }} грн</p>
+<a href="{% url 'add_to_cart' item.id %}">Додати в корзину</a> |
+<a href="{% url 'clothing_list' %}">Назад до товарів</a>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ item.name }}</title>
+</head>
+<body>
+    <h1>{{ item.name }}</h1>
+    <p>{{ item.description }}</p>
+    <p>Ціна: {{ item.price }} грн</p>
+
+
+    <a href="{% url 'add_to_cart' item.id %}">Додати в корзину</a> |
+
+
+    <a href="{% url 'clothing_item_list' %}">Назад до товарів</a>
+</body>
+</html>

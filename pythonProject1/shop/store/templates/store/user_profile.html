@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мій профіль</title>
+</head>
+<body>
+    <h2>Вітаємо, {{ user.username }}!</h2>
+    <p>Це ваш профіль.</p>
+    <a href="{% url 'logout' %}">Вийти</a>
+</body>
+</html>

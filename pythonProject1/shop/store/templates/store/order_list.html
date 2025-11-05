@@ -1,0 +1,6 @@
+<h1>Ваші замовлення</h1>
+<ul>
+    {% for order in orders %}
+        <li>Замовлення #{{ order.id }} - Статус: {{ order.status }} - Сума: {{ order.total_price }} грн</li>
+    {% endfor %}
+</ul>

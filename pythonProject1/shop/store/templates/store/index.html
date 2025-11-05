@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Магазин одягу</title>
+</head>
+<body>
+    <h1>Вітаємо в нашому магазині!</h1>
+    <div>
+        {% if user.is_authenticated %}
+            <p>Привіт, {{ user.username }}! <a href="{% url 'logout' %}">Вийти</a></p>
+            <p><a href="{% url 'my_orders' %}">Мої замовлення</a></p>
+        {% else %}
+            <a href="{% url 'login' %}">Увійти</a> | <a href="{% url 'register' %}">Зареєструватися</a>
+        {% endif %}
+    </div>
+
+    <h2>Наші товари:</h2>
+    <form method="GET">
+        <select name="category">
+            <option value="">Виберіть категорію</option>
+            {% for category in categories %}
+                <option value="{{ category }}" {% if category == request.GET.category %}selected{% endif %}>
+                    {{ category }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Фільтрувати</button>
+    </form>
+<div>
+    {% for item in clothing_items %}
+        <div>
+            <h3>{{ item.name }}</h3>
+            <p>{{ item.description }}</p>
+            <p>Ціна: {{ item.price }} грн</p>
+            <a href="{% url 'clothing_item_detail' item.id %}">Переглянути товар</a> |
+            <a href="{% url 'add_to_cart' item.id %}">Додати в корзину</a>
+        </div>
+    {% empty %}
+        <p>Товари не знайдено.</p>
+    {% endfor %}
+</div>
+

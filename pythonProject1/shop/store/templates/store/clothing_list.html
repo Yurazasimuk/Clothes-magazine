@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Наші товари</title>
+</head>
+<body>
+    <h1>Наші товари</h1>
+
+    <form method="get" action="{% url 'clothing_list' %}">
+        <label for="type">Фільтрувати за типом:</label>
+        <select name="type" id="type">
+            <option value="">Виберіть тип</option>
+            <option value="Куртка">Куртка</option>
+            <option value="Штани">Штани</option>
+            <option value="Футболка">Футболка</option>
+            <!-- Додайте інші типи одягу, якщо потрібно -->
+        </select>
+        <button type="submit">Фільтрувати</button>
+    </form>
+
+    <ul>
+        {% for item in clothes %}
+            <li>
+                <h3>{{ item.name }}</h3>
+                <p>{{ item.description }}</p>
+                <p>Ціна: {{ item.price }} грн</p>
+            </li>
+        {% empty %}
+            <li>Немає товарів для фільтрації за цим типом.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
+<h1>Список товарів</h1>
+
+{% if clothes %}
+  <ul>
+    {% for item in clothes %}
+      <li>
+        <h2>{{ item.name }}</h2>
+        <p>{{ item.description }}</p>
+        <p>Ціна: {{ item.price }} грн</p>
+
+      </li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <p>Товари не знайдені.</p>
+{% endif %}
+{% extends "store/base_generic.html" %}
+
+{% block content %}
+  <h2>Наші товари</h2>
+
+  <form method="get" action="{% url 'clothing_list' %}">
+    <label for="category">Фільтрувати за категорією:</label>
+    <select name="category" id="category">
+      <option value="casual">Куртки</option>  <!-- Фільтр для курток -->
+      <option value="sportswear">Штани</option>  <!-- Фільтр для штанів -->
+      <option value="formal">Інші товари</option>  <!-- Фільтр для інших категорій, якщо є -->
+    </select>
+    <button type="submit">Фільтрувати</button>
+  </form>
+
+  <div>
+    {% for clothing in clothes %}
+      <div>
+        <h3>{{ clothing.name }}</h3>
+        <p>{{ clothing.description }}</p>
+        <p>Ціна: {{ clothing.price }} грн</p>
+      </div>
+    {% empty %}
+      <p>Немає товарів за цією категорією.</p>
+    {% endfor %}
+  </div>
+{% endblock %}

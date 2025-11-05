@@ -1,0 +1,11 @@
+<h1>Оформлення замовлення</h1>
+<ul>
+    {% for item in cart_items %}
+        <li>{{ item.name }} - {{ item.price }} грн</li>
+    {% endfor %}
+</ul>
+<p>Загальна сума: {{ total_price }} грн</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Оформити замовлення</button>
+</form>

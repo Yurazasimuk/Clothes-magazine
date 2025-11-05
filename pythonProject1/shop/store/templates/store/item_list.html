@@ -1,0 +1,16 @@
+<form method="get" action="{% url 'filter_items_by_type' %}">
+    <label for="type">Виберіть тип одягу:</label>
+    <select name="type" id="type">
+        <option value="T-shirt">Футболка</option>
+        <option value="Jeans">Джинси</option>
+        <option value="Jacket">Куртка</option>
+    </select>
+    <button type="submit">Фільтрувати</button>
+</form>
+
+<h2>Доступні товари:</h2>
+<ul>
+    {% for item in items %}
+        <li>{{ item.name }} - {{ item.type }} - {{ item.price }} грн</li>
+    {% endfor %}
+</ul>

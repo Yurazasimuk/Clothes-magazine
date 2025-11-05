@@ -1,0 +1,4 @@
+<h2>Замовлення №{{ order.id }} успішно оформлене!</h2>
+<p>Дата: {{ order.created_at }}</p>
+<p>Кількість товарів: {{ order.items.count }}</p>
+<a href="{% url 'clothing_item_list' %}">Повернутися до магазину</a>

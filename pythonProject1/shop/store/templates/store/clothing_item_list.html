@@ -1,0 +1,8 @@
+<h1>Список товарів</h1>
+<ul>
+    {% for item in items %}
+        <li>
+            <a href="{% url 'clothing_item_detail' pk=item.pk %}">{{ item.name }}</a>
+        </li>
+    {% endfor %}
+</ul>

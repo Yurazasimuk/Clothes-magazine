@@ -1,0 +1,10 @@
+<h1>Дякуємо за ваше замовлення!</h1>
+<p>Ваше замовлення №{{ order.id }} успішно оформлено.</p>
+<p>Загальна сума: {{ order.total_price }} грн</p>
+
+<h2>Ваші товари:</h2>
+<ul>
+    {% for item in order.orderitem_set.all %}
+        <li>{{ item.quantity }} x {{ item.clothing_item.name }} - {{ item.clothing_item.price }} грн</li>
+    {% endfor %}
+</ul>
