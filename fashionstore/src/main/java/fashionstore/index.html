@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fashion Store</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <h1>Fashion Store</h1>
+    <nav>
+        <a href="register.html">Реєстрація</a>
+        <a href="login.html">Вхід</a>
+        <a href="admin.html">Адмін</a>
+        <a href="cart.html">Кошик</a>
+    </nav>
+</header>
+
+<main>
+    <h2>Каталог товарів (картки)</h2>
+    <div class="product-grid">
+        <div class="product-card">
+            <h3>Куртка хутряна</h3>
+            <p>Тепла та стильна куртка</p>
+            <p><b>1500 грн</b></p>
+            <button onclick="addManualToCart('Куртка хутряна',1500)">Додати у кошик</button>
+        </div>
+        <div class="product-card">
+            <h3>Сукня вечірня</h3>
+            <p>Елегантна вечірня сукня</p>
+            <p><b>1200 грн</b></p>
+            <button onclick="addManualToCart('Сукня вечірня',1200)">Додати у кошик</button>
+        </div>
+        <div class="product-card">
+            <h3>Кофта в'язана</h3>
+            <p>Тепла в'язана кофта</p>
+            <p><b>800 грн</b></p>
+            <button onclick="addManualToCart('Кофта в\'язана',800)">Додати у кошик</button>
+        </div>
+    </div>
+
+    <h2>Каталог товарів (текст)</h2>
+    <ul>
+        <li>Куртка хутряна - 1500 грн <button onclick="addManualToCart('Куртка хутряна',1500)">Додати у кошик</button></li>
+        <li>Сукня вечірня - 1200 грн <button onclick="addManualToCart('Сукня вечірня',1200)">Додати у кошик</button></li>
+        <li>Кофта в'язана - 800 грн <button onclick="addManualToCart('Кофта в\'язана',800)">Додати у кошик</button></li>
+    </ul>
+</main>
+
+<script>
+function addManualToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push({name: name, price: price});
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(name + " додано у кошик!");
+}
+</script>
+
+</body>
+</html>
+<script>
+
+function addManualToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push({name: name, price: price});
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert(name + " додано у кошик!");
+}
+</script>

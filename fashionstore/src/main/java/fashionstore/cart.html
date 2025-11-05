@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>Кошик</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<h1>Кошик</h1>
+<div id="cart-list"></div>
+<p id="total"></p>
+<button onclick="checkout()">Оплатити</button>
+
+<script>
+function displayCart() {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let cartDiv = document.getElementById("cart-list");
+    let totalDiv = document.getElementById("total");
+    cartDiv.innerHTML = "";
+    let total = 0;
+
+    if(cart.length === 0){
+        cartDiv.innerHTML = "<p>Кошик порожній</p>";
+        totalDiv.innerText = "";
+        return;
+    }
+
+    cart.forEach((item, index) => {
+        cartDiv.innerHTML += `<p>${item.name} - ${item.price} грн
+        <button onclick="removeFromCart(${index})">Видалити</button></p>`;
+        total += parseFloat(item.price);  // щоб не було проблем із рядками
+    });
+
+    totalDiv.innerText = "Сума: " + total + " грн";
+}
+
+function removeFromCart(index) {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.splice(index,1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    displayCart();
+}
+
+function checkout() {
+    localStorage.removeItem("cart");
+    displayCart();
+    alert("Оплата пройшла успішно!");
+}
+
+window.onload = displayCart;
+</script>
+</body>
+</html>
