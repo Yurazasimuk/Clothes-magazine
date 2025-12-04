@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Bag - MERO</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-left">
+        <div class="logo"><a href="index.html">MERO</a></div>
+        <div class="nav-cats">
+            <a href="products.html?type=women">Woman</a>
+            <a href="products.html?type=men">Man</a>
+        </div>
+    </div>
+    <div class="header-center">
+        <div class="search-bar"><input type="text" placeholder="Search..."><span>🔍</span></div>
+        <div class="nav-links">
+            <a href="products.html?type=sale" style="color: #cc0000;">Sale</a>
+            <a href="products.html?type=accessories">Accessories</a>
+        </div>
+    </div>
+    <div class="header-right">
+        <a href="login.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+        <a href="cart.html" class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M20 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </a>
+    </div>
+</header>
+
+<div class="cart-page-container">
+    <div id="cartContainer"></div>
+    <div class="cart-total">Total: <span id="cartTotal">0</span> UAH</div>
+
+    <div style="text-align: right; margin-top: 30px;">
+        <button onclick="openCheckout()" class="btn-black">CHECKOUT</button>
+    </div>
+
+    <div style="text-align: right; margin-top: 10px;">
+        <button onclick="clearCart()" style="font-size: 12px; color: #888; text-decoration: underline; border:none; background:none; cursor:pointer;">Clear Bag</button>
+    </div>
+</div>
+
+<div class="modal-overlay" id="checkoutModal">
+    <div class="modal-content">
+        <span class="modal-close" onclick="closeCheckout()">&times;</span>
+        <h2 class="form-title" style="font-size: 24px; margin-bottom: 20px;">Checkout</h2>
+
+        <form id="orderForm">
+            <div class="input-group">
+                <input type="text" id="orderName" class="styled-input" placeholder="Full Name">
+                <span class="validation-msg">Enter at least 2 characters</span>
+            </div>
+
+            <div class="input-group">
+                <input type="tel" id="orderPhone" class="styled-input" placeholder="Phone (e.g. 0991234567)">
+                <span class="validation-msg">Enter valid phone (10-12 digits)</span>
+            </div>
+
+            <div class="input-group">
+                <input type="text" id="orderAddress" class="styled-input" placeholder="Delivery Address (City, Street)">
+                <span class="validation-msg">Address is too short</span>
+            </div>
+
+            <div style="text-align: right; margin-top: 20px;">
+                <p style="font-size: 14px; margin-bottom: 10px;">Total to pay: <strong id="modalTotal">0</strong> UAH</p>
+                <button type="submit" id="confirmBtn" class="btn-black" style="width: 100%;" disabled>CONFIRM ORDER</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<footer><div style="text-align:center; font-size:12px; color:#999;">© 2025 MERO. Secure Checkout.</div></footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCart();
+        updateBadge();
+        setupValidation();
+    });
+
+    function renderCart() {
+        const container = document.getElementById('cartContainer');
+        const totalEl = document.getElementById('cartTotal');
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+        if (!cart.length) {
+            container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Your bag is empty.</p>';
+            totalEl.innerText = '0';
+            return;
+        }
+
+        container.innerHTML = '';
+        let total = 0;
+        cart.forEach((item, index) => {
+            total += item.price;
+            let displaySize = item.selectedSize || 'M';
+            container.innerHTML += `
+                <div class="cart-item">
+                    <div style="display:flex; align-items:center;">
+                        <img src="${item.image}" alt="${item.name}">
+                        <div class="cart-info"><h4>${item.name}</h4><p>Size: <strong>${displaySize}</strong></p><p style="font-weight:bold;">${item.price} UAH</p></div>
+                    </div>
+                    <button onclick="removeFromCart(${index})" style="color:#cc0000; font-size:12px; font-weight:600; cursor:pointer; border:none; background:none;">REMOVE</button>
+                </div>`;
+        });
+        totalEl.innerText = total;
+        updateBadge();
+    }
+
+    function setupValidation() {
+        const nameInput = document.getElementById('orderName');
+        const phoneInput = document.getElementById('orderPhone');
+        const addressInput = document.getElementById('orderAddress');
+        const confirmBtn = document.getElementById('confirmBtn');
+
+        const inputs = [nameInput, phoneInput, addressInput];
+
+
+        function validateInput(input) {
+            let isValid = false;
+            const value = input.value.trim();
+
+            if (input.id === 'orderName') {
+                isValid = value.length >= 2;
+            } else if (input.id === 'orderPhone') {
+                const phoneRegex = /^[0-9\+]{10,13}$/;
+                isValid = phoneRegex.test(value);
+            } else if (input.id === 'orderAddress') {
+                isValid = value.length >= 5;
+            }
+
+
+            if (isValid) {
+                input.classList.add('valid');
+                input.classList.remove('invalid');
+            } else {
+                input.classList.add('invalid');
+                input.classList.remove('valid');
+            }
+            return isValid;
+        }
+
+
+        function checkForm() {
+            const isNameValid = validateInput(nameInput);
+            const isPhoneValid = validateInput(phoneInput);
+            const isAddressValid = validateInput(addressInput);
+
+
+            if (isNameValid && isPhoneValid && isAddressValid) {
+                confirmBtn.disabled = false;
+                confirmBtn.innerText = "CONFIRM ORDER";
+            } else {
+                confirmBtn.disabled = true;
+                confirmBtn.innerText = "FILL ALL FIELDS";
+            }
+        }
+
+
+        inputs.forEach(input => {
+            input.addEventListener('input', () => {
+                validateInput(input);
+                checkForm();
+            });
+        });
+
+
+        document.getElementById('orderForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            processOrder();
+        });
+    }
+
+
+    function processOrder() {
+        const name = document.getElementById('orderName').value;
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+
+        const newOrder = {
+            id: Date.now(),
+            date: new Date().toLocaleDateString(),
+            items: cart,
+            total: document.getElementById('cartTotal').innerText,
+            user: name
+        };
+
+        let orders = JSON.parse(localStorage.getItem('orders')) || [];
+        orders.push(newOrder);
+        localStorage.setItem('orders', JSON.stringify(orders));
+
+
+        alert(`Thank you, ${name}! Your order has been placed successfully.`);
+        localStorage.removeItem('cart');
+        closeCheckout();
+        renderCart();
+    }
+
+
+    function openCheckout() {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        if(cart.length === 0) {
+            alert("Your bag is empty!");
+            return;
+        }
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if(currentUser) {
+            document.getElementById('orderName').value = currentUser.name || "";
+            document.getElementById('orderPhone').value = currentUser.phone || "";
+            document.getElementById('orderAddress').value = currentUser.address || "";
+
+            document.getElementById('orderName').dispatchEvent(new Event('input'));
+            document.getElementById('orderPhone').dispatchEvent(new Event('input'));
+            document.getElementById('orderAddress').dispatchEvent(new Event('input'));
+        }
+
+        document.getElementById('modalTotal').innerText = document.getElementById('cartTotal').innerText;
+        document.getElementById('checkoutModal').classList.add('open');
+    }
+
+    function closeCheckout() {
+        document.getElementById('checkoutModal').classList.remove('open');
+    }
+
+
+    function removeFromCart(index) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCart();
+    }
+    function clearCart() { if(confirm("Clear bag?")) { localStorage.removeItem('cart'); renderCart(); } }
+    function updateBadge() { const cart = JSON.parse(localStorage.getItem('cart')) || []; const badge = document.getElementById('cartBadge'); if (badge) { badge.innerText = cart.length; badge.classList.toggle('show', cart.length > 0); } }
+</script>
+</body>
+</html>

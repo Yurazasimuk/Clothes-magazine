@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Black Trench Coat",
+    "category": "clothing",
+    "price": 3200,
+    "oldPrice": 4500,
+    "rating": 5,
+    "isNew": true,
+    "image": "https://i.pinimg.com/736x/f6/d6/9c/f6d69c9a335555af19c14ce2404e55bd.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Leather Boots",
+    "category": "shoes",
+    "price": 2800,
+    "oldPrice": null,
+    "rating": 4,
+    "isNew": false,
+    "image": "https://images.unsplash.com/photo-1608256246200-53e635b5b69f?q=80&w=500&auto=format&fit=crop"
+  },
+  {
+    "id": 3,
+    "name": "Summer Dress",
+    "category": "clothing",
+    "price": 1200,
+    "oldPrice": 1600,
+    "rating": 5,
+    "isNew": true,
+    "image": "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop"
+  },
+  {
+    "id": 4,
+    "name": "Urban Sneakers",
+    "category": "shoes",
+    "price": 2400,
+    "oldPrice": 3000,
+    "rating": 4,
+    "isNew": false,
+    "image": "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500&auto=format&fit=crop"
+  },
+  {
+    "id": 5,
+    "name": "Denim Jacket",
+    "category": "clothing",
+    "price": 1800,
+    "oldPrice": null,
+    "rating": 5,
+    "isNew": false,
+    "image": "https://images.unsplash.com/photo-1523205565295-f8e91625443b?q=80&w=500&auto=format&fit=crop"
+  }
+]

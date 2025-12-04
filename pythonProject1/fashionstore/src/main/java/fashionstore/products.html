@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog - MERO</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+<header>
+    <div class="header-left">
+        <div class="logo"><a href="index.html">MERO</a></div>
+        <div class="nav-cats"><a href="products.html?type=women">Woman</a><a href="products.html?type=men">Man</a></div>
+    </div>
+    <div class="header-center">
+        <div class="search-bar"><input type="text" placeholder="Search products..."><span>🔍</span></div>
+        <div class="nav-links"><a href="products.html?type=sale" style="color: #cc0000;">Sale</a><a href="products.html?type=accessories">Accessories</a></div>
+    </div>
+    <div class="header-right">
+        <a href="wishlist.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg></a>
+        <a href="login.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>
+        <a href="cart.html" class="icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M20 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span id="cartBadge" class="cart-badge">0</span>
+        </a>
+    </div>
+</header>
+
+<div class="catalog-section-wrapper">
+    <div class="catalog-title-wrapper"><h2 id="pageTitle" class="catalog-title">All Collection</h2></div>
+    <div class="filters">
+        <button onclick="window.location.href='products.html'" class="filter-btn" style="background: white; color: black; border: 1px solid #ddd;">View All</button>
+        <select id="categoryFilter" class="filter-select"><option value="all">All Categories</option><option value="Shoes">Shoes</option><option value="Clothing">Clothing</option><option value="Accessories">Accessories</option></select>
+        <button id="applyFilterBtn" class="filter-btn">Filter</button>
+    </div>
+    <div class="slider-container">
+        <button class="slider-btn prev" onclick="slide('left')"><svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+        <div id="productsContainer" class="products-slider-track"></div>
+        <button class="slider-btn next" onclick="slide('right')"><svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg></button>
+    </div>
+</div>
+
+<footer><div style="text-align:center; font-size:12px; color:#999;">© 2025 MERO. All rights reserved.</div></footer>
+
+<script>
+    const productsData = [
+        { id: 1, name: "Black Trench Coat", category: "Clothing", gender: "women", price: 3200, oldPrice: 4500, rating: 5, isNew: true, image: "https://i.pinimg.com/736x/f6/d6/9c/f6d69c9a335555af19c14ce2404e55bd.jpg" },
+        { id: 3, name: "Summer Dress", category: "Clothing", gender: "women", price: 1200, oldPrice: 1600, rating: 5, isNew: true, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" },
+        { id: 2, name: "Leather Boots", category: "Shoes", gender: "unisex", price: 2800, oldPrice: null, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1608256246200-53e635b5b69f?q=80&w=500&auto=format&fit=crop" },
+        { id: 4, name: "Urban Sneakers", category: "Shoes", gender: "unisex", price: 2400, oldPrice: 3000, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500&auto=format&fit=crop" },
+        { id: 5, name: "Denim Jacket", category: "Clothing", gender: "men", price: 1800, oldPrice: null, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1523205565295-f8e91625443b?q=80&w=500&auto=format&fit=crop" },
+        { id: 6, name: "White Tee", category: "Clothing", gender: "men", price: 600, oldPrice: 900, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500&auto=format&fit=crop" },
+        { id: 7, name: "Classic Leather Bag", category: "Accessories", gender: "women", price: 1500, oldPrice: 2000, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=500&auto=format&fit=crop" },
+        { id: 8, name: "Black Sunglasses", category: "Accessories", gender: "unisex", price: 800, oldPrice: null, rating: 4, isNew: true, image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=500&auto=format&fit=crop" },
+        { id: 9, name: "Silver Watch", category: "Accessories", gender: "men", price: 4500, oldPrice: 5000, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=500&auto=format&fit=crop" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+        updateBadge();
+        highlightActiveMenu();
+
+        const container = document.getElementById('productsContainer');
+        const params = new URLSearchParams(window.location.search);
+        const type = params.get('type');
+        const titleEl = document.getElementById('pageTitle');
+
+        let filteredData = productsData;
+        if (type === 'women') { filteredData = productsData.filter(p => p.gender === 'women' || p.gender === 'unisex'); titleEl.innerText = "Women's Collection"; }
+        else if (type === 'men') { filteredData = productsData.filter(p => p.gender === 'men' || p.gender === 'unisex'); titleEl.innerText = "Men's Collection"; }
+        else if (type === 'accessories') { filteredData = productsData.filter(p => p.category === 'Accessories'); titleEl.innerText = "Accessories"; }
+        else if (type === 'sale') { filteredData = productsData.filter(p => p.oldPrice !== null); titleEl.innerText = "Sale"; }
+
+        if(container) {
+            render(filteredData);
+            checkArrows();
+            container.addEventListener('scroll', checkArrows);
+        }
+
+        document.getElementById('applyFilterBtn').addEventListener('click', () => {
+            const cat = document.getElementById('categoryFilter').value;
+            const doubleFiltered = filteredData.filter(p => (cat === 'all' || p.category === cat));
+            render(doubleFiltered);
+            checkArrows();
+        });
+    });
+localStorage.setItem("allProducts", JSON.stringify(productsData));
+
+    function render(list) {
+        const container = document.getElementById('productsContainer');
+        const wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        container.innerHTML = list.length ? '' : '<p style="text-align:center; width:100%; padding:20px;">No products found in this category.</p>';
+        list.forEach(p => {
+            let stars = '★'.repeat(p.rating) + '☆'.repeat(5 - p.rating);
+            const isLiked = wishlist.some(item => item.id === p.id) ? 'active' : '';
+            const heartContent = isLiked ? '♥' : '♡';
+            const card = document.createElement('div');
+            card.className = 'product-card';
+            card.style.cursor = 'pointer';
+            card.onclick = (e) => { if(!e.target.classList.contains('btn-detail') && !e.target.classList.contains('btn-fav')) window.location.href=`product-details.html?id=${p.id}`; };
+            card.innerHTML = `
+                <div class="card-image">${p.isNew ? '<span class="badge-new">NEW</span>' : ''}<span class="btn-fav ${isLiked}" onclick="event.stopPropagation(); toggleWishlist(${p.id}, this)">${heartContent}</span><img src="${p.image}" alt="${p.name}"></div>
+                <div class="card-info"><div class="rating">${stars}</div><p style="font-size:12px; color:#888; margin:0;">${p.category}</p><h3>${p.name}</h3>
+                <div class="prices"><div class="price-block"><span class="price-new">${p.price} UAH</span>${p.oldPrice ? `<span class="price-old">${p.oldPrice} UAH</span>` : ''}</div>
+                <button class="btn-detail" onclick="event.stopPropagation(); window.location.href='product-details.html?id=${p.id}'">In detail</button></div></div>`;
+            container.appendChild(card);
+        });
+    }
+
+    function toggleWishlist(id, btn) {
+        let wishlist = JSON.parse(localStorage.getItem('wishlist')) || [];
+        const index = wishlist.findIndex(p => p.id === id);
+        if (index === -1) {
+            const product = productsData.find(p => p.id === id);
+            wishlist.push(product);
+            btn.classList.add('active');
+            btn.innerText = '♥';
+            alert("Added to Wishlist!");
+        } else {
+            wishlist.splice(index, 1);
+            btn.classList.remove('active');
+            btn.innerText = '♡';
+        }
+        localStorage.setItem('wishlist', JSON.stringify(wishlist));
+    }
+
+    function highlightActiveMenu() {
+        const currentUrl = window.location.href;
+        const links = document.querySelectorAll('header a');
+        links.forEach(link => {
+            if (link.href === currentUrl) link.classList.add('active-link');
+        });
+    }
+
+    function slide(direction) { const track = document.getElementById('productsContainer'); const val = 330; direction === 'left' ? track.scrollBy({ left: -val, behavior: 'smooth' }) : track.scrollBy({ left: val, behavior: 'smooth' }); setTimeout(checkArrows, 500); }
+    function checkArrows() { const track = document.getElementById('productsContainer'); const prev = document.querySelector('.slider-btn.prev'); const next = document.querySelector('.slider-btn.next'); if(!track) return; if(track.scrollLeft <= 10) { prev.style.opacity='0.3'; prev.style.pointerEvents='none'; } else { prev.style.opacity='1'; prev.style.pointerEvents='all'; } if(track.scrollLeft >= (track.scrollWidth - track.clientWidth - 10)) { next.style.opacity='0.3'; next.style.pointerEvents='none'; } else { next.style.opacity='1'; next.style.pointerEvents='all'; } }
+    function updateBadge() { const cart = JSON.parse(localStorage.getItem('cart')) || []; const badge = document.getElementById('cartBadge'); if (badge) { badge.innerText = cart.length; badge.classList.toggle('show', cart.length > 0); } }
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile - MERO</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-left"><div class="logo"><a href="index.html">MERO</a></div></div>
+    <div class="header-center"></div>
+    <div class="header-right">
+        <a href="index.html" class="icon-btn">Home</a>
+        <a href="cart.html" class="icon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M20 20a1 1 0 1 0 0 2 1 1 0 1 0 0-2z"></path><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg><span id="cartBadge" class="cart-badge">0</span></a>
+    </div>
+</header>
+
+<div class="profile-header">
+    <h1 class="profile-title">My Profile</h1>
+    <div class="profile-nav">
+        <a href="#" class="active">My profile</a>
+        <a href="#">Order history</a>
+        <a href="#">My address</a>
+        <a href="#">Gift certificates</a>
+        <a href="#">Promocodes</a>
+    </div>
+</div>
+
+<div class="profile-content">
+    <h2 class="section-heading">Basic Information</h2>
+
+    <form id="profileForm">
+        <div class="profile-field">
+            <label class="profile-label">Surname and First Name</label>
+            <input type="text" id="userName" class="profile-input" placeholder="Enter your name">
+        </div>
+
+        <div class="profile-field">
+            <label class="profile-label">Number phone</label>
+            <input type="tel" id="userPhone" class="profile-input" placeholder="+380...">
+        </div>
+
+        <div class="profile-field">
+            <label class="profile-label">Address</label>
+            <input type="text" id="userAddress" class="profile-input" placeholder="Enter your delivery address">
+        </div>
+        
+        <div class="profile-actions">
+            <button type="submit" class="btn-black" style="width: auto; padding: 12px 40px;">Save Changes</button>
+            <button type="button" class="btn-logout" onclick="logout()">Log Out</button>
+        </div>
+    </form>
+</div>
+
+<footer><div style="text-align:center; font-size:12px; color:#999;">© 2025 MERO. User Profile.</div></footer>
+
+<script>
+
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+
+    if (!currentUser) {
+
+        window.location.href = 'login.html';
+    } else {
+
+        document.getElementById('userName').value = currentUser.name || "";
+        document.getElementById('userPhone').value = currentUser.phone || "";
+        document.getElementById('userAddress').value = currentUser.address || "";
+    }
+
+
+    document.getElementById('profileForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        currentUser.name = document.getElementById('userName').value;
+        currentUser.phone = document.getElementById('userPhone').value;
+        currentUser.address = document.getElementById('userAddress').value;
+
+
+        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+        
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const index = users.findIndex(u => u.email === currentUser.email);
+        if(index !== -1) {
+            users[index] = currentUser;
+            localStorage.setItem('users', JSON.stringify(users));
+        }
+
+        alert("Information saved successfully!");
+    });
+
+    function logout() {
+        localStorage.removeItem('currentUser');
+        window.location.href = 'login.html';
+    }
+
+
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const badge = document.getElementById('cartBadge');
+    if (badge) { badge.innerText = cart.length; badge.classList.toggle('show', cart.length > 0); }
+</script>
+
+</body>
+</html></title>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - MERO</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+<header>
+    <div class="header-left"><div class="logo"><a href="index.html">MERO</a></div></div>
+    <div class="header-center"></div>
+    <div class="header-right"><a href="register.html" style="font-size: 12px; font-weight: 600; text-transform: uppercase;">Create Account</a></div>
+</header>
+
+<div class="page-container">
+    <h2 class="form-title">Log In</h2>
+    <form id="loginForm">
+        <input type="email" id="loginEmail" class="styled-input" placeholder="Email" required>
+        <input type="password" id="loginPass" class="styled-input" placeholder="Password" required>
+        <p style="font-size:11px; color:#888; margin-bottom:15px;">Admin: admin@mero.com / admin</p>
+        <button type="submit" class="btn-black" style="width: 100%;">SIGN IN</button>
+    </form>
+</div>
+
+<footer><div style="text-align:center; font-size:12px; color:#999;">© 2025 MERO. Secure Login.</div></footer>
+
+<script>
+    document.getElementById('loginForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('loginEmail').value;
+        const pass = document.getElementById('loginPass').value;
+
+
+        if (email === 'admin@mero.com' && pass === 'admin') {
+            localStorage.setItem('userRole', 'admin');
+            window.location.href = 'admin.html';
+            return;
+        }
+
+
+        let users = JSON.parse(localStorage.getItem('users')) || [];
+        const user = users.find(u => u.email === email && u.pass === pass);
+
+        if (user) {
+
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            alert(`Welcome back, ${user.name}!`);
+            window.location.href = 'profile.html';
+        } else {
+            alert("Invalid email or password!");
+        }
+    });
+</script>
+</body>
+</html>

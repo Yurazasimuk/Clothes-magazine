@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - MERO</title>
+    <link rel="stylesheet" href="../../../../css/style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-left"><div class="logo"><a href="index.html">MERO</a></div></div>
+    <div class="header-center"><span style="font-weight:700; text-transform:uppercase; color:#cc0000;">Admin Dashboard</span></div>
+    <div class="header-right">
+        <button onclick="logout()" class="btn-black" style="padding: 10px 20px; font-size:10px; background:#333;">Log Out</button>
+    </div>
+</header>
+
+<div class="admin-container">
+    <h2 class="form-title">Add New Product</h2>
+    <form id="addProductForm">
+        <label class="admin-label">Product Name</label>
+        <input type="text" id="pName" class="styled-input" placeholder="e.g. Red Velvet Dress" required>
+
+        <div class="admin-row">
+            <div style="flex:1;">
+                <label class="admin-label">Category</label>
+                <select id="pCategory" class="styled-input">
+                    <option value="Clothing">Clothing</option>
+                    <option value="Shoes">Shoes</option>
+                    <option value="Accessories">Accessories</option>
+                </select>
+            </div>
+            <div style="flex:1;">
+                <label class="admin-label">Gender</label>
+                <select id="pGender" class="styled-input">
+                    <option value="women">Women</option>
+                    <option value="men">Men</option>
+                    <option value="unisex">Unisex</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="admin-row">
+            <div style="flex:1;">
+                <label class="admin-label">Price (UAH)</label>
+                <input type="number" id="pPrice" class="styled-input" placeholder="3200" required>
+            </div>
+            <div style="flex:1;">
+                <label class="admin-label">Old Price (Optional)</label>
+                <input type="number" id="pOldPrice" class="styled-input" placeholder="4500">
+            </div>
+        </div>
+
+        <label class="admin-label">Image URL (Link)</label>
+        <input type="url" id="pImage" class="styled-input" placeholder="https://..." required>
+
+        <label class="admin-label">Description</label>
+        <textarea id="pDesc" class="styled-input" rows="4" placeholder="Product description..."></textarea>
+
+        <button type="submit" class="btn-black" style="width: 100%;">ADD PRODUCT</button>
+    </form>
+</div>
+
+<footer><div style="text-align:center; font-size:12px; color:#999;">© 2025 MERO. Admin Area.</div></footer>
+
+<script>
+
+    if (localStorage.getItem('userRole') !== 'admin') {
+        alert("Access Denied! Only admins allowed.");
+        window.location.href = 'login.html';
+    }
+
+
+    function logout() {
+        localStorage.removeItem('userRole');
+        window.location.href = 'index.html';
+    }
+
+
+    const defaultData = [
+        { id: 1, name: "Black Trench Coat", category: "Clothing", gender: "women", price: 3200, oldPrice: 4500, rating: 5, isNew: true, image: "https://i.pinimg.com/736x/f6/d6/9c/f6d69c9a335555af19c14ce2404e55bd.jpg" },
+        { id: 3, name: "Summer Dress", category: "Clothing", gender: "women", price: 1200, oldPrice: 1600, rating: 5, isNew: true, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=500&auto=format&fit=crop" },
+        { id: 2, name: "Leather Boots", category: "Shoes", gender: "unisex", price: 2800, oldPrice: null, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1608256246200-53e635b5b69f?q=80&w=500&auto=format&fit=crop" },
+        { id: 4, name: "Urban Sneakers", category: "Shoes", gender: "unisex", price: 2400, oldPrice: 3000, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500&auto=format&fit=crop" },
+        { id: 5, name: "Denim Jacket", category: "Clothing", gender: "men", price: 1800, oldPrice: null, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1523205565295-f8e91625443b?q=80&w=500&auto=format&fit=crop" },
+        { id: 6, name: "White Tee", category: "Clothing", gender: "men", price: 600, oldPrice: 900, rating: 4, isNew: false, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=500&auto=format&fit=crop" },
+        { id: 7, name: "Classic Leather Bag", category: "Accessories", gender: "women", price: 1500, oldPrice: 2000, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?q=80&w=500&auto=format&fit=crop" },
+        { id: 8, name: "Black Sunglasses", category: "Accessories", gender: "unisex", price: 800, oldPrice: null, rating: 4, isNew: true, image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?q=80&w=500&auto=format&fit=crop" },
+        { id: 9, name: "Silver Watch", category: "Accessories", gender: "men", price: 4500, oldPrice: 5000, rating: 5, isNew: false, image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=500&auto=format&fit=crop" }
+    ];
+
+    document.getElementById('addProductForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('pName').value;
+        const category = document.getElementById('pCategory').value;
+        const gender = document.getElementById('pGender').value;
+        const price = Number(document.getElementById('pPrice').value);
+        const oldPrice = document.getElementById('pOldPrice').value ? Number(document.getElementById('pOldPrice').value) : null;
+        const image = document.getElementById('pImage').value;
+        const desc = document.getElementById('pDesc').value || "No description available.";
+
+        let products = JSON.parse(localStorage.getItem('productsData'));
+        if (!products || products.length === 0) {
+            products = defaultData;
+        }
+
+        const newProduct = {
+            id: Date.now(),
+            name: name,
+            category: category,
+            gender: gender,
+            price: price,
+            oldPrice: oldPrice,
+            rating: 5,
+            isNew: true,
+            image: image,
+            description: desc,
+            reviews: []
+        };
+
+        products.unshift(newProduct);
+        localStorage.setItem('productsData', JSON.stringify(products));
+
+        alert("Product Added Successfully!");
+        document.getElementById('addProductForm').reset();
+    });
+</script>
+</body>
+</html>
