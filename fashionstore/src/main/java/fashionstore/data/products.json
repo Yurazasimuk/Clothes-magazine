@@ -1,5 +1,0 @@
-[
-    {"id":1,"name":"Сукня","description":"Стильна сукня","price":1200,"image":"https://via.placeholder.com/150"},
-    {"id":2,"name":"Кофта","description":"Тепла кофта","price":800,"image":"https://via.placeholder.com/150"},
-    {"id":3,"name":"Штани","description":"Модні штани","price":1000,"image":"https://via.placeholder.com/150"}
-]
